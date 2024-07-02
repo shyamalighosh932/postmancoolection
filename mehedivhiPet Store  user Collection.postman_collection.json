@@ -1,0 +1,297 @@
+{
+	"info": {
+		"_postman_id": "f4e2b3de-8f54-4647-b18a-bf88a886ef21",
+		"name": "Pet Store  user Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24025008"
+	},
+	"item": [
+		{
+			"name": "Create a user",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"\r",
+							"let id = Math.floor(Math.random()*10000);\r",
+							"\r",
+							"pm.collectionVariables.set(\"id\",id);\r",
+							"pm.collectionVariables.set(\"username\",\"testUser\"+id);\r",
+							"pm.collectionVariables.set(\"email\",\"Test_Email\"+id+\"@gmail.com\")\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Verify Create User response Status is 200\",function(){\r",
+							"    pm.response.to.have.status(200)\r",
+							"})\r",
+							"\r",
+							"let resBody= pm.response.json();\r",
+							"let requestBody = JSON.parse(pm.request.body.raw);\r",
+							"\r",
+							"pm.test(\"Verify code is 200 in Response Body\",function(){\r",
+							"    pm.expect(200).to.equal(resBody.code); \r",
+							"}\r",
+							")\r",
+							"\r",
+							"pm.collectionVariables.set(\"firstName\",requestBody.firstName);\r",
+							"pm.collectionVariables.set(\"lastName\",requestBody.lastName);\r",
+							"pm.collectionVariables.set(\"phone\",requestBody.phone);\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": {{id}},\r\n    \"username\": \"{{username}}\",\r\n    \"firstName\": \"kamal\",\r\n    \"lastName\": \"Hasan\",\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"1234\",\r\n    \"phone\": \"45663\"\r\n    \r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/v2/user",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v2",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Verify Get User response Status is 200\",function(){\r",
+							"    pm.response.to.have.status(200)\r",
+							"})\r",
+							"\r",
+							"let resBody = pm.response.json();\r",
+							"//Print stetment\r",
+							"console.log(\"Expected value\",pm.collectionVariables.get(\"firstName\"));\r",
+							"console.log(\"Actual value\",resBody.firstName);\r",
+							"\r",
+							"pm.test(\"Verify first Name \",function(){\r",
+							"    pm.expect(pm.collectionVariables.get(\"firstName\")).to.equal(resBody.firstName)\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify last Name \",function(){\r",
+							"    pm.expect(pm.collectionVariables.get(\"lastName\")).to.equal(resBody.lastName)\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify phone Number\",function(){\r",
+							"    pm.expect(pm.collectionVariables.get(\"phone\")).to.equal(resBody.phone)\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify id\",function(){\r",
+							"    pm.expect(pm.collectionVariables.get(\"id\")).to.equal(resBody.id)\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify username\",function(){\r",
+							"    pm.expect(pm.collectionVariables.get(\"username\")).to.equal(resBody.username)\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify email\",function(){\r",
+							"    pm.expect(pm.collectionVariables.get(\"email\")).to.equal(resBody.email)\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/v2/user/{{username}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v2",
+						"user",
+						"{{username}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update a user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Verify update response Status is 200\",function(){\r",
+							"    pm.response.to.have.status(200)\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \r\n    \"email\": \"MD@gmail.com\",\r\n    \"password\": \"1234\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/v2/user/{{username}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v2",
+						"user",
+						"{{username}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/v2/user/{{username}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v2",
+						"user",
+						"{{username}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a User",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/v2/user/{{username}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v2",
+						"user",
+						"{{username}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/v2/user/{{username}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v2",
+						"user",
+						"{{username}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": ""
+		},
+		{
+			"key": "username",
+			"value": ""
+		},
+		{
+			"key": "email",
+			"value": ""
+		},
+		{
+			"key": "firstName",
+			"value": ""
+		},
+		{
+			"key": "lastName",
+			"value": ""
+		},
+		{
+			"key": "phone",
+			"value": ""
+		}
+	]
+}
